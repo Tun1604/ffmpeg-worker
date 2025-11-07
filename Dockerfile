@@ -1,11 +1,20 @@
-FROM node:18-slim
+# Use Node.js LTS
+FROM node:18
 
-RUN apt-get update && apt-get install -y ffmpeg
-
+# Set working directory
 WORKDIR /app
-COPY . .
 
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
 RUN npm install
 
+# Copy all source files
+COPY . .
+
+# Expose port
 EXPOSE 3000
+
+# Start the app
 CMD ["node", "server.js"]
