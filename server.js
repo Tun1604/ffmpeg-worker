@@ -6,7 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ✅ Route kiểm tra server đang chạy
+// ✅ Route kiểm tra server
 app.get("/", (req, res) => {
   res.send("FFmpeg worker is running ✅");
 });
@@ -19,7 +19,6 @@ app.post("/create-video", async (req, res) => {
   }
 
   try {
-    // Lệnh FFmpeg
     const cmd = `ffmpeg -loop 1 -i "${image}" -i "${music}" -t ${
       duration || 5
     } -vf "scale=1280:720" -pix_fmt yuv420p -c:v libx264 -shortest output.mp4`;
