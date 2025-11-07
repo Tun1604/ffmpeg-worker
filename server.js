@@ -17,8 +17,9 @@ app.post("/create-video", async (req, res) => {
 
     // Lệnh FFmpeg: tạo video từ ảnh + nhạc
     const cmd = music
-      ? `ffmpeg -y -loop 1 -i "${image}" -i "${music}" -shortest -t ${duration} -vf "scale=1280:720,format=yuv420p" -pix_fmt yuv420p "${outputPath}"`
-      : `ffmpeg -y -loop 1 -i "${image}" -t ${duration} -vf "scale=1280:720,format=yuv420p" -pix_fmt yuv420p "${outputPath}"`;
+  ? `ffmpeg -y -i "${image}" -i "${music}" -t ${duration} -vf "scale=480:270,format=yuv420p" -pix_fmt yuv420p -shortest "${outputPath}"`
+  : `ffmpeg -y -i "${image}" -t ${duration} -vf "scale=480:270,format=yuv420p" -pix_fmt yuv420p "${outputPath}"`;
+
 
     exec(cmd, (error) => {
       if (error) return res.status(500).json({ error: error.message });
@@ -35,3 +36,4 @@ app.get("/", (_, res) => res.send("FFmpeg worker is running ✅"));
 app.listen(process.env.PORT || 3000, () =>
   console.log("Server running on port 3000")
 );
+
